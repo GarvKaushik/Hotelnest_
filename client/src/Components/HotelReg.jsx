@@ -1,10 +1,50 @@
 import React from "react";
 import { assets, cities } from "../assets/assets";
+import { useAppContext } from "../context/Appcontext";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 const HotelReg = () => {
+  const { setShowHotelReg, axios, getToken, setisOwner } = useAppContext();
+  const [name, setName] = useState("");
+  const [address, setaddress] = useState("");
+  const [contact, setcontact] = useState("");
+  const [city, setcity] = useState("");
+
+  const onSubmitHandler = async (event) => {
+    try {
+      event.preventDefault();
+      const { data } = await axios.post(
+        "/api/hotels/",
+        {
+          name,
+          contact,
+          address,
+          city,
+        },
+        { headers: { Authorization: `Bearer ${await getToken()}` } }
+      );
+      if (data.success) {
+        toast.success(data.message);
+        setisOwner(true);
+        setShowHotelReg(false);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(data.message);
+    }
+  };
   return (
-    <div className="fixed top-0 bottom-0 left-0 right-0 z-100 flex items-center justify-center bg-black/70">
+    <div
+      onClick={() => {
+        setShowHotelReg(true);
+      }}
+      className="fixed top-0 bottom-0 left-0 right-0 z-100 flex items-center justify-center bg-black/70"
+    >
       <form
+        onSubmit={onSubmitHandler}
+        onClick={(e) => e.stopPropagation}
         className="flex bg-white rounded-xl max-w-4xl max-md:mx-2 "
         action=""
       >
@@ -21,6 +61,7 @@ const HotelReg = () => {
             src={assets.closeIcon}
             className="absolute top-4 right-4 h-4 w-4 cursor-pointer"
             alt=""
+            onClick={() => setShowHotelReg(false)}
           />
           <p className="text-2xl font-semibold mt-6"> Register your Hotel</p>
           {/* Hotel Name */}
@@ -30,6 +71,7 @@ const HotelReg = () => {
             </label>
             <input
               id="name"
+              onChange={(e) => setName(e.target.value)}
               className=" border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light"
               required
               type="text "
@@ -42,6 +84,8 @@ const HotelReg = () => {
               Phone
             </label>
             <input
+              onChange={(e) => setcontact(e.target.value)}
+              value={contact}
               id="contact"
               className=" border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light"
               required
@@ -55,6 +99,10 @@ const HotelReg = () => {
               Address
             </label>
             <input
+              onChange={(e) => {
+                setaddress(e.target.value);
+              }}
+              value={address}
               className=" border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light"
               required
               type="text "
@@ -67,6 +115,8 @@ const HotelReg = () => {
               City
             </label>
             <select
+              onChange={(e) => setcity(e.target.value)}
+              value={city}
               id="city"
               className="border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light"
               required

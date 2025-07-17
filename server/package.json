@@ -17,8 +17,11 @@
     "cors": "^2.8.5",
     "dotenv": "^17.1.0",
     "express": "^5.1.0",
+    "micro": "^10.0.1",
     "mongoose": "^8.16.2",
     "multer": "^2.0.1",
+    "nodemailer": "^7.0.5",
+    "raw-body": "^3.0.0",
     "svix": "^1.69.0"
   },
   "devDependencies": {

@@ -1,9 +1,52 @@
-import React, { useState } from "react";
-import { roomsDummyData } from "../../assets/assets";
+import React, { useEffect, useState } from "react";
+// import { roomsDummyData } from "../../assets/assets";
 import Title from "../../Components/Title";
+import { useAppContext } from "../../context/Appcontext";
+import toast from "react-hot-toast";
 
 const ListRoom = () => {
-  const [rooms, setrooms] = useState(roomsDummyData);
+  const [rooms, setrooms] = useState([]);
+  const { axios, getToken, user, currency } = useAppContext();
+  // fetch rooms for hotel owner
+
+  const fetchRooms = async () => {
+    try {
+      const { data } = await axios.get("/api/rooms/owner", {
+        headers: { Authorization: `Bearer ${await getToken()}` },
+      });
+      if (data.success) {
+        setrooms(data.rooms);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  // toggle availability
+  const toggleAvailability = async (roomId) => {
+    const { data } = await axios.post(
+      "/api/rooms/toggle-availability",
+      { roomId },
+      {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+        },
+      }
+    );
+    if (data.success) {
+      toast.success(data.message);
+      fetchRooms();
+    } else {
+      toast.error(data.message);
+    }
+  };
+  useEffect(() => {
+    if (user) {
+      fetchRooms();
+    }
+  }, [user]);
   return (
     <div>
       <Title
@@ -21,7 +64,7 @@ const ListRoom = () => {
               <th className="py-3 px-4 text-gray-800 font-medium max-sm:hidden">
                 Facility
               </th>
-              <th className="py-3 px-4 text-gray-800 font-medium text-center">
+              <th className="py-3 px-4 text-gray-800 font-medium">
                 Price/Night
               </th>
               <th className="py-3 px-4 text-gray-800 font-medium text-center">
@@ -39,11 +82,12 @@ const ListRoom = () => {
                   {item.amenities.join(", ")}
                 </td>
                 <td className="py-3 px-4 text-gray-700 border-t border-gray-300 ">
-                  $ {item.pricePerNight}
+                  {currency} {item.pricePerNight}
                 </td>
                 <td className="py-3 px-4 border-t border-gray-300 text-sm text-center text-red-500  ">
                   <label className="relative inline-flex items-center cursor-pointer text-gray-900 gap-3">
                     <input
+                      onChange={() => toggleAvailability(item._id)}
                       type="checkbox"
                       className="sr-only peer"
                       checked={item.isAvailable}

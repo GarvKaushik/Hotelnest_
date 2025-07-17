@@ -1,9 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Title from "../../Components/Title";
-import { assets, dashboardDummyData } from "../../assets/assets";
+import { assets } from "../../assets/assets";
+import { useAppContext } from "../../context/Appcontext";
 
 const Dashboard = () => {
-  const [DashboardData, setDashboardData] = useState(dashboardDummyData);
+  const { axios, getToken, user, currency, toast } = useAppContext();
+  const [DashboardData, setDashboardData] = useState({
+    bookings: [],
+    totalBookings: 0,
+    totalRevenue: 0,
+  });
+  const fetchDashBoardData = async () => {
+    try {
+      const { data } = await axios.get("/api/bookings/hotel", {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+        },
+      });
+      if (data.success) {
+        setDashboardData(data.dashboard);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+  useEffect(() => {
+    if (user) {
+      fetchDashBoardData();
+    }
+  }, [user]);
   return (
     <div>
       <Title
@@ -37,6 +64,7 @@ const Dashboard = () => {
           <div className="flex flex-col sm:ml-4 font-medium">
             <p className="text-blue-500 text-lg"> Total Revenue</p>
             <p className="text-neutral-400 text-base">
+              {currency}
               {DashboardData.totalRevenue}
             </p>
           </div>
@@ -72,11 +100,11 @@ const Dashboard = () => {
                   {item.room.roomType}
                 </td>
                 <td className="py-3 px-4 text-gray-700 border-t border-gray-300">
-                  {item.totalPrice}
+                  {currency} {item.totalPrice}
                 </td>
                 <td className="py-3 px-4border-t border-gray-300 flex">
                   <button
-                    className={`py-1 px-3 text-xs rounded-full mx-auto ${
+                    className={`py-1 px-3 text-xs rounded-full mx-auto {currency}{
                       item.isPaid
                         ? "bg-green-200 text-green-600"
                         : "bg-amber-200 text-yellow-600"
