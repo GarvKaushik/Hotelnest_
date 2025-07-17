@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import Navbar from "../../Components/HotelOwner/navbar";
-import Sidebar from "../../Components/HotelOwner/sidebar";
+import Navbar from "../../Components/HotelOwner/Navbar";
+import Sidebar from "../../Components/HotelOwner/Sidebar";
 import { Outlet } from "react-router-dom";
 import { useAppContext } from "../../context/Appcontext";
 const Layout = () => {
