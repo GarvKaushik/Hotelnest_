@@ -32,7 +32,7 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Hotels", path: "/rooms" },
-    { name: "Experience", path: "/testimonials" },
+    { name: "Experience", path: "#experience" },
     { name: "About", path: "/" },
   ];
 
@@ -43,19 +43,21 @@ const Navbar = () => {
   const location = useLocation();
   const { user, navigate, isOwner, setShowHotelReg } = useAppContext();
   useEffect(() => {
-    if (location.pathname !== "/") {
-      setIsScrolled(true);
-      return;
-    } else {
-      setIsScrolled(false);
-    }
-    setIsScrolled((prev) => (location.pathname !== "/" ? true : prev));
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
+
+    if (location.pathname !== "/") {
+      setIsScrolled(true);
+      return; // Don't add scroll listener on non-home pages
+    }
+
+    // On home page, enable scroll listener
     window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Run once to check initial position
+
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [location.pathname]); // ✅ Rerun when route changes
 
   return (
     <nav
@@ -73,13 +75,23 @@ const Navbar = () => {
           className={`w-40 ${isScrolled && "invert opacity-80"}`}
         />
       </Link>
-
       {/* Desktop Nav */}
       <div className="hidden md:flex items-center gap-4 lg:gap-8">
         {navLinks.map((link, i) => (
           <a
             key={i}
             href={link.path}
+            onClick={() => {
+              if (link.path.startsWith("#")) {
+                const element = document.getElementById(link.path.slice(1));
+                if (element) {
+                  element.scrollIntoView({ behavior: "smooth" });
+                }
+              } else {
+                navigate(link.path);
+              }
+              setIsMenuOpen(false); // close mobile menu if open
+            }}
             className={`group flex flex-col gap-0.5 ${
               isScrolled ? "text-gray-700" : "text-white"
             }`}
@@ -105,17 +117,8 @@ const Navbar = () => {
           </button>
         )}
       </div>
-
       {/* Desktop Right */}
       <div className="hidden md:flex items-center gap-4">
-        <img
-          src={assets.searchIcon}
-          alt=""
-          className={`${
-            isScrolled && `invert`
-          } h-7 transition-all duration-500`}
-        />
-
         {user ? (
           <UserButton>
             <UserButton.MenuItems>
@@ -136,9 +139,7 @@ const Navbar = () => {
           </SignInButton>
         )}
       </div>
-
       {/* Mobile Menu Button */}
-
       <div className="flex items-center gap-3 md:hidden">
         {user && (
           <UserButton>
@@ -160,7 +161,6 @@ const Navbar = () => {
           alt=""
         />
       </div>
-
       {/* Mobile Menu */}
       <div
         className={`fixed top-0 left-0 w-full h-screen bg-white text-base flex flex-col md:hidden items-center justify-center gap-6 font-medium text-gray-800 transition-all duration-500 ${

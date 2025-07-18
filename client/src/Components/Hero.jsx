@@ -35,7 +35,7 @@ const Hero = () => {
     });
   };
   return (
-    <div className='flex flex-col items-start justify-center px-6 md:px-16 lg:px-24 x1:px-32 text-white bg-[url("/src/assets/heroImage.png")] bg-no-repeat bg-cover h-screen'>
+    <div className='flex flex-col items-start justify-center px-6 md:px-16 lg:px-24 x1:px-32 text-white bg-[url("/src/assets/main.jpg")] bg-no-repeat bg-cover h-screen'>
       <p className="bg-[#49B9FF]/50 px-3.5 py-1 rounded-full mt-20">
         The Ultimate Hotel Experience
       </p>

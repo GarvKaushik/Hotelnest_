@@ -23,7 +23,7 @@ const RecommendedHotels = () => {
   }, [rooms, searchedCities]);
   return (
     recommended.length > 0 && (
-      <div className=" flex flex-col items-center px-6 md:px-15 lg:px-13 bg-slate-50 py-20">
+      <div className=" flex flex-col items-center px-6 md:px-15 lg:px-13 bg-stone-100 py-20">
         <Title
           title={`Recommended Hotels`}
           subtitle={

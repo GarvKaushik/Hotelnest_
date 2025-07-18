@@ -13,3 +13,6 @@
 .font-playfair {
   font-family: Playfair !important;
 }
+html {
+  scroll-behavior: smooth;
+}
