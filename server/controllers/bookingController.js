@@ -1,6 +1,7 @@
 import Booking from "../models/bookings.js";
 import Hotel from "../models/hotel.js";
 import Room from "../models/rooms.js";
+import Stripe from "stripe";
 
 // function to check availability of room
 const checkAvailability = async ({ checkInDate, checkOutDate, room }) => {
@@ -138,6 +139,55 @@ export const getHotelBookings = async (req, res) => {
     res.json({
       success: false,
       message: "Failed to fetch booking",
+    });
+  }
+};
+
+export const stripePayment = async (req, res) => {
+  try {
+    const { bookingId } = req.body;
+    console.log("Received bookingId:", bookingId);
+    const booking = await Booking.findById(bookingId);
+    const roomData = await Room.findById(booking.room).populate("hotel");
+    const { origin } = req.headers;
+
+    const totalPrice = booking.totalPrice;
+
+    const stripeinstance = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const line_items = [
+      {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: roomData.hotel.name,
+          },
+          unit_amount: totalPrice * 100,
+        },
+        quantity: 1,
+      },
+    ];
+    // create checkout session
+
+    const session = await stripeinstance.checkout.sessions.create({
+      line_items,
+      mode: "payment",
+      success_url: `${origin}/loader/my-bookings`,
+      cancel_url: `${origin}/my-bookings`,
+      metadata: {
+        bookingId,
+      },
+    });
+
+    res.json({
+      success: true,
+      url: session.url,
+    });
+  } catch (error) {
+    console.error("Stripe payment error:", error);
+
+    res.json({
+      success: false,
+      message: "Payment Failed",
     });
   }
 };

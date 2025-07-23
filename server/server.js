@@ -1,5 +1,6 @@
 import express from "express";
 import "dotenv/config";
+
 import cors from "cors";
 import connectDB from "./config/db.js";
 import { clerkMiddleware } from "@clerk/express";
@@ -10,13 +11,20 @@ import hotelRouter from "./routes/hotelRoute.js";
 import connectCloudinary from "./config/cloudinary.js";
 import roomRouter from "./routes/roomRoute.js";
 import bookingRouter from "./routes/bookingRoutes.js";
+import { stripePayment } from "./controllers/bookingController.js";
+import { stripeWebHooks } from "./controllers/stripeWebhooks.js";
 
 connectDB();
 connectCloudinary();
 const app = express();
 
 app.use(cors()); // cross origin resource sharing
-
+// api to listen to stripe
+app.post(
+  "/api/stripe",
+  express.raw({ type: "application/json" }),
+  stripeWebHooks
+);
 app.use(express.json());
 
 app.use(clerkMiddleware());
