@@ -87,7 +87,7 @@ Install the following before running the project:
 ### 1. Clone the repository
 
 ```bash
-git clone <YOUR_REPOSITORY_URL>
+git clone https://github.com/GarvKaushik/Hotelnest_
 cd Hotelnest
 ```
 
