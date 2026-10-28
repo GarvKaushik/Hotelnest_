@@ -23,21 +23,16 @@ Hotelnest is a hotel discovery and booking web application built with the MERN s
 ## Screenshots
 
 ### Dashboard
-<img width="800" height="400" alt="image" src="https://github.com/user-attachments/assets/fae86361-af17-4bae-9ed6-3d4da2a163e6" />
-
+<img width="1400" height="757" alt="landing page" src="https://github.com/user-attachments/assets/d94ef7ad-706d-47b9-b2ce-c3aa40675ae3" />
 
 ### Hotel Rooms Page
-<img width="800" height="400" alt="image" src="https://github.com/user-attachments/assets/9dff4f14-d25f-4b69-a52c-bf5e420d5a28" />
-
-
+<img width="1400" height="747" alt="Rooms" src="https://github.com/user-attachments/assets/d2339284-2a58-47f6-9b6d-de24d6f37474" />
 
 ### Admin Dashboard
-<img width="800" height="400" alt="image" src="https://github.com/user-attachments/assets/16876a2d-f88d-497c-a3ee-e31b1b8da35e" />
-
+<img width="1400" height="743" alt="dashboard" src="https://github.com/user-attachments/assets/08922157-c535-44cd-a94e-9d65f55e2775" />
 
 ### Admin Room Listing Page
-<img width="800" height="400" alt="image" src="https://github.com/user-attachments/assets/17a7f97a-01fb-4b3b-8f2c-ace0975e9f4f" />
-
+<img width="1833" height="990" alt="Room_listing" src="https://github.com/user-attachments/assets/5309bd5a-9c54-4eea-ae55-1b709e82199d" />
 
 ## Tech Stack
 
