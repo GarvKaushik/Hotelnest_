@@ -23,7 +23,7 @@ Hotelnest is a hotel discovery and booking web application built with the MERN s
 ## Screenshots
 
 ### Dashboard
-<img width="1841" height="987" alt="image" src="https://github.com/user-attachments/assets/fae86361-af17-4bae-9ed6-3d4da2a163e6" />
+<img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/fae86361-af17-4bae-9ed6-3d4da2a163e6" />
 
 
 ### Hotel Rooms Page
