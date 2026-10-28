@@ -20,6 +20,24 @@ Hotelnest is a hotel discovery and booking web application built with the MERN s
 - Upload room images through Cloudinary.
 - View listed rooms and manage availability.
 - Access a dashboard with booking and revenue information.
+## Screenshots
+
+### Dashboard
+<img width="1841" height="987" alt="image" src="https://github.com/user-attachments/assets/fae86361-af17-4bae-9ed6-3d4da2a163e6" />
+
+
+### Hotel Rooms Page
+<img width="1841" height="982" alt="image" src="https://github.com/user-attachments/assets/9dff4f14-d25f-4b69-a52c-bf5e420d5a28" />
+
+
+
+### Admin Dashboard
+<img width="1833" height="990" alt="image" src="https://github.com/user-attachments/assets/16876a2d-f88d-497c-a3ee-e31b1b8da35e" />
+
+
+### Admin Room Listing Page
+<img width="1833" height="990" alt="image" src="https://github.com/user-attachments/assets/17a7f97a-01fb-4b3b-8f2c-ace0975e9f4f" />
+
 
 ## Tech Stack
 
